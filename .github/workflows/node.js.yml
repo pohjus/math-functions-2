@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI and Auto Merge
 
 permissions:
   contents: write
@@ -6,13 +6,10 @@ permissions:
 on:
   push:
     branches:
-      - main
-      - feature/add-new-feature
-  pull_request:
-    branches: ["main"]
+      - feature/*
 
 jobs:
-  build:
+  test-and-merge:
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,9 +18,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Fetch all branches
-        run: git fetch --all
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -40,17 +36,11 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      - name: Checkout feature branch
-        run: git checkout feature/add-new-feature
-
-      - name: Merge main into feature branch favoring feature branch changes
-        run: git merge -s ours main
-
       - name: Checkout main branch
         run: git checkout main
 
       - name: Merge feature branch into main
-        run: git merge --no-ff feature/add-new-feature -m "Auto-merge feature/add-new-feature"
+        run: git merge --no-ff ${{ github.ref }}
 
       - name: Push changes
-        run: git push
+        run: git push origin main
