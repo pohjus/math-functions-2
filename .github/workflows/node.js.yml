@@ -36,8 +36,14 @@ jobs:
       - name: Checkout main branch
         run: git checkout main
 
-      - name: Merge feature branch into main
-        run: git merge --no-ff ${{ github.ref }}
+      - name: Merge feature branch into main favoring feature branch changes
+        run: git merge -s ours feature/add-new-feature --allow-unrelated-histories
+
+      - name: Checkout feature branch
+        run: git checkout feature/add-new-feature
+
+      - name: Merge main into feature branch
+        run: git merge main
 
       - name: Push changes
-        run: git push origin main
+        run: git push origin feature/add-new-feature
