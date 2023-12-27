@@ -44,7 +44,7 @@ jobs:
         run: git checkout main
 
       - name: Merge feature branch into main favoring feature branch changes
-        run: git merge -s ours feature/add-new-feature
+        run: git merge -s ours feature/add-new-feature --allow-unrelated-histories
 
       - name: Checkout feature branch
         run: git checkout feature/add-new-feature
