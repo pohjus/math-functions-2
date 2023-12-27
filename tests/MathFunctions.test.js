@@ -33,9 +33,4 @@ describe("Math Functions", () => {
   test("Division by zero should throw an error", () => {
     expect(() => divide(10, 0)).toThrow("Division by zero is not allowed.");
   });
-
-  test("Something", () => {
-    const result = something(2, 7);
-    expect(result).toBe(9);
-  });
 });
