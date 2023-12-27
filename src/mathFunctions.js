@@ -8,4 +8,5 @@ module.exports = {
     }
     return a / b;
   },
+  something: (a, b) => a + b,
 };
